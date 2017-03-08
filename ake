@@ -7,9 +7,9 @@ main() {
 publish() {
   build
   npm publish --registry=https://registry.npmjs.org
-  cnpm sync @gutenye/react-svg-loader
   git commit -am 'publish'
   git push
+  cnpm sync @gutenye/react-svg-loader
 }
 
 build() {
