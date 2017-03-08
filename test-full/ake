@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+export PATH="node_modules/.bin:$PATH"
+
+main() {
+  webpack-dev-server --inline --hot
+}
+
+build() {
+  webpack
+}
+
+case "$1" in
+  "" ) main ;;
+  b | build ) build ;;
+esac

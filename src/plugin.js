@@ -8,24 +8,25 @@ const build = template(`
 
   export default class Icon extends React.Component {
     render() {
+    console.log(1)
       const {className, ...rest} = this.props
       const props = {
         ...rest,
-        className: 'icon ' + className || '',
+        className: 'icon ' + (className || ''),
       }
       return SOURCE
     }
   }
 
   const SVG = styled.svg\`
-    ${p => p.button && `
+    \${p => p.button && \`
       cursor: pointer;
-    `}
+    \`}
 
-    ${p => p.gray && `
+    \${p => p.gray && \`
       color: #c6cbd1;
       &:hover { color: #959da5; }
-    `}
+    \`}
   \`
 `, {
   sourceType: 'module',

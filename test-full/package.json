@@ -1,0 +1,22 @@
+{
+  "name": "hello",
+  "version": "1.0.0",
+  "description": "hello",
+  "dependencies": {
+    "react": "",
+    "react-dom": "",
+    "styled-components": "^1.4.4"
+  },
+  "devDependencies": {
+    "babel-core": "",
+    "babel-loader": "",
+    "babel-plugin-transform-class-properties": "",
+    "babel-plugin-transform-decorators-legacy": "",
+    "babel-plugin-transform-object-rest-spread": "",
+    "babel-preset-env": "",
+    "babel-preset-react": "",
+    "gulp": "",
+    "webpack": "",
+    "webpack-dev-server": ""
+  }
+}
