@@ -40,7 +40,6 @@
     "loader-utils": "^1.0.2",
     "lodash.isplainobject": "^4.0.4",
     "react-dom": "^15.4.2",
-    "react-svg-loader": "^2.0.0-alpha",
     "svgo": "^0.7.2",
     "yargs": "^6.6.0"
   },
