@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-babel src --out-dir lib --copy-files -w
+publish() {
+  build
+  npm publish
+  cnpm sync @gutenye/react-svg-loader
+  git commit -am 'publish'
+  git push
+}
 
 build() {
   npm run build
