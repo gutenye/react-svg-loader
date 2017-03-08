@@ -1,6 +1,6 @@
 {
   "name": "@gutenye/react-svg-loader",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Optimize svg and load it as a React Component",
   "main": "lib/loader.js",
   "scripts": {
