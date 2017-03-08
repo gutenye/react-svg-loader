@@ -6,6 +6,11 @@ import {validateAndFix} from './svgo';
 import plugin from './plugin';
 
 function optimize (opts) {
+  opts = Object.assign({
+    plugins: [
+      { removeStyleElement: true }
+    ]
+  }, opts)
   validateAndFix(opts);
   const svgo = new Svgo(opts);
   return function (content) {
@@ -17,19 +22,11 @@ function optimize (opts) {
 
 function transform (opts) {
   return function(content) {
-    let babelOpts;
-    if (opts.jsx) {
-      babelOpts = {
-        babelrc: false,
-        plugins: ['syntax-jsx', plugin]
-      };
-    } else {
-      babelOpts = {
-        babelrc: false,
-        presets: ['react'],
-        plugins: [plugin]
-      };
-    }
+    const babelOpts = {
+      babelrc: false,
+      presets: ['react', 'env'],
+      plugins: [plugin, 'transform-object-rest-spread']
+    };
     return babelTransform(content, babelOpts);
   }
 }

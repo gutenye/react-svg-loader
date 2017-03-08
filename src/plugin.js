@@ -8,10 +8,11 @@ const build = template(`
 
   export default class Icon extends React.Component {
     render() {
-    console.log(1)
-      const {className, ...rest} = this.props
+      const {className, size, small, large, ...rest} = this.props
+      size_ = size || large ? '2em' : small ? '1em' : '1.3em'
       const props = {
         ...rest,
+        width: size_,
         className: 'icon ' + (className || ''),
       }
       return SOURCE
