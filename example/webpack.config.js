@@ -16,6 +16,7 @@ module.exports = {
             loader: svgLoader, // 'react-svg'
             query: {
               es5: false,
+              //jsx: true,
               svgo: {
                 pretty: true,
                 plugins: [

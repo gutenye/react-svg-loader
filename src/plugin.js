@@ -1,5 +1,36 @@
 import cssToObj from './css-to-obj';
 import {hyphenToCamel, namespaceToCamel} from './camelize';
+import template from 'babel-template'
+
+const build = template(`
+  import React from 'react'
+  import styled from 'styled-components'
+
+  export default class Icon extends React.Component {
+    render() {
+      const {className, ...rest} = this.props
+      const props = {
+        ...rest,
+        className: 'icon ' + className || '',
+      }
+      return SOURCE
+    }
+  }
+
+  const SVG = styled.svg\`
+    ${p => p.button && `
+      cursor: pointer;
+    `}
+
+    ${p => p.gray && `
+      color: #c6cbd1;
+      &:hover { color: #959da5; }
+    `}
+  \`
+`, {
+  sourceType: 'module',
+  plugins: ['jsx', 'objectRestSpread'],
+})
 
 export default function (babel) {
   const t = babel.types;
@@ -20,7 +51,7 @@ export default function (babel) {
         // to
         // <tag className="blah blah1"/>
         if (path.node.name.name === 'class') {
-          path.node.name.name = "className";
+          //path.node.name.name = "className";
         }
 
         // converts
@@ -49,54 +80,23 @@ export default function (babel) {
     }
   };
 
-  // returns
-  // export default class SVG extends React.Component {
-  //   render() {
-  //     return ${input_svg_node}
-  //   }
-  // }
-  const getExport = function (svg, className = 'SVG') {
-    return t.exportDefaultDeclaration(
-      t.classDeclaration(
-        t.identifier(className),
-        t.memberExpression(
-          t.identifier('React'),
-          t.identifier('Component')
-        ),
-        t.classBody(
-          [
-            t.classMethod(
-              'method',
-              t.identifier('render'),
-              [],
-              t.blockStatement(
-                [t.returnStatement(svg)]
-              )
-            )
-          ]
-        ),
-        []
-      )
-    );
-  };
-
   // converts
   // <svg>
   // to
-  // <svg {...this.props}>
+  // <SVG {...this.props}>
   // after passing through attributes visitors
   const svgVisitor = {
     JSXOpeningElement(path) {
       if (path.node.name.name.toLowerCase() === 'svg') {
+        path.node.name.name = 'SVG'
         // add spread props
-        path.node.attributes.push(
-          t.jSXSpreadAttribute(
-            t.memberExpression(
-              t.thisExpression(),
-              t.identifier('props')
-            )
-          )
-        );
+        path.node.attributes.push(t.jSXSpreadAttribute(t.identifier('props')));
+      }
+    },
+
+    JSXClosingElement(path) {
+      if (path.node.name.name.toLowerCase() === 'svg') {
+        path.node.name.name = 'SVG'
       }
     }
   };
@@ -109,27 +109,15 @@ export default function (babel) {
   // after passing through other visitors
   const svgExpressionVisitor = {
     ExpressionStatement(path) {
-      if (!path.get('expression').isJSXElement()) return;
-      if (path.get('expression.openingElement.name').node.name !== 'svg') return;
-      path.replaceWith(getExport(path.get('expression').node));
-    }
-  }
-
-  const programVisitor = {
-    Program(path) {
-      // add import react statement
-      path.node.body.unshift(
-        t.importDeclaration(
-          [
-            t.importDefaultSpecifier(t.identifier('React'))
-          ],
-          t.stringLiteral('react')
-        )
-      );
+      if (!t.isJSXElement(path.node.expression)) return;
+      if (path.node.expression.openingElement.name.name !== 'svg') return;
+      const SOURCE = path.node.expression
+      const nodes = build({SOURCE})
+      path.replaceWithMultiple(nodes)
     }
   }
 
   return {
-    visitor: Object.assign({}, programVisitor, svgExpressionVisitor, svgVisitor, attrVisitor)
+    visitor: Object.assign({}, svgExpressionVisitor, svgVisitor, attrVisitor)
   };
 }

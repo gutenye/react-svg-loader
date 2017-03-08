@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+babel src --out-dir lib --copy-files -w
+
+build() {
+  npm run build
+}
+
+case "$1" in
+  build ) build ;;
+esac
