@@ -1,6 +1,6 @@
 {
   "name": "@gutenye/react-svg-loader",
-  "version": "2.0.6",
+  "version": "2.0.8",
   "description": "Optimize svg and load it as a React Component",
   "main": "lib/loader.js",
   "scripts": {
@@ -34,18 +34,20 @@
   "homepage": "https://github.com/boopathi/react-svg-loader#readme",
   "dependencies": {
     "loader-utils": "^1.0.2",
+    "lodash.isplainobject": "^4.0.6",
     "svgo": "^0.7.2"
   },
   "peerDependencies": {
     "babel-core": "*",
-    "babel-preset-react": "*",
+    "babel-plugin-transform-object-rest-spread": "*",
     "babel-preset-env": "*",
-    "babel-plugin-transform-object-rest-spread": "*"
+    "babel-preset-react": "*"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-generator": "^6.23.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.2.1",
     "babel-register": "^6.22.0",
     "babylon": "^6.16.1",
     "eslint": "^3.14.1",
